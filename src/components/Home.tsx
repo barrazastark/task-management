@@ -11,7 +11,7 @@ export const Home = () => {
     <>
       <Flex mb="1em">
         <Link to="/task/new">
-          <Button leftIcon={<AddIcon />} colorScheme="blue">
+          <Button role="button" leftIcon={<AddIcon />} colorScheme="blue">
             Add new task
           </Button>
         </Link>
