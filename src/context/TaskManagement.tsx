@@ -1,12 +1,12 @@
-import React, { createContext, useContext, useState } from 'react';
-import { Task } from '../types/Task';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { Priority, SortOrder } from '../types/Task';
+import React, { createContext, useContext, useState } from "react";
+import { Task } from "../types/Task";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { Priority, SortOrder } from "../types/Task";
 
 interface TaskContextProps {
   tasks: Task[];
   filter: "All" | Priority;
-  order: SortOrder,
+  order: SortOrder;
   setFilter: (priority: "All" | Priority) => void;
   toggleOrder: () => void;
   addTask: (task: Task) => void;
@@ -27,67 +27,63 @@ const TaskContext = createContext<TaskContextProps>({
   toggleComplete: () => {},
 });
 
-
-
-export const TaskProvider = ({ children }: {children: React.ReactElement}) => {
-  const [tasks, dispatch] = useLocalStorage<Task[]>('tasks', []);
+export const TaskProvider = ({
+  children,
+}: {
+  children: React.ReactElement;
+}) => {
+  const [tasks, dispatch] = useLocalStorage<Task[]>("tasks", []);
   const [filter, setFilter] = useState<"All" | Priority>("All");
   const [order, setOrder] = useState<SortOrder>(SortOrder.DESC);
 
   const addTask = (task: Task) => {
-    dispatch([task, ...tasks])
-  }
+    dispatch([task, ...tasks]);
+  };
 
   const editTask = (task: Task) => {
     dispatch(
-      tasks.map(t => {
-
+      tasks.map((t) => {
         if (t.id === task.id) {
           return task;
         }
 
         return t;
-
-      })
+      }),
     );
-  }
+  };
 
   const deleteTask = (taskId: number) => {
-    dispatch(
-      tasks.filter(t => t.id !== taskId)
-    );
-  }
+    dispatch(tasks.filter((t) => t.id !== taskId));
+  };
 
   const toggleComplete = (taskId: number) => {
     dispatch(
-      tasks.map(t => {
-
+      tasks.map((t) => {
         if (t.id === taskId) {
           return {
             ...t,
             completed: !t.completed,
-          }
+          };
         }
 
         return t;
-
-      })
+      }),
     );
-  }
+  };
 
   const toggleOrder = () => {
     setOrder(order === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC);
-  }
+  };
 
   let filteredTasks: Task[] = [];
 
   if (filter === "All") {
     filteredTasks = tasks;
   } else {
-    filteredTasks = tasks.filter(t => t.priority === filter);
+    filteredTasks = tasks.filter((t) => t.priority === filter);
   }
 
-  const sortedTasksByDate = filteredTasks.sort((a,b) => {
+  const sortedTasksByDate = filteredTasks.sort((a, b) => {
     if (order === SortOrder.ASC) {
       return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
     } else {
@@ -96,17 +92,19 @@ export const TaskProvider = ({ children }: {children: React.ReactElement}) => {
   });
 
   return (
-    <TaskContext.Provider value={{ 
-      tasks: sortedTasksByDate,
-      order,
-      addTask, 
-      editTask, 
-      deleteTask, 
-      toggleComplete, 
-      filter, 
-      setFilter,
-      toggleOrder
-    }}>
+    <TaskContext.Provider
+      value={{
+        tasks: sortedTasksByDate,
+        order,
+        addTask,
+        editTask,
+        deleteTask,
+        toggleComplete,
+        filter,
+        setFilter,
+        toggleOrder,
+      }}
+    >
       {children}
     </TaskContext.Provider>
   );
@@ -115,7 +113,7 @@ export const TaskProvider = ({ children }: {children: React.ReactElement}) => {
 export const useTasks = () => {
   const context = useContext(TaskContext);
   if (!context) {
-    throw new Error('useTasks must be used within a TaskProvider');
+    throw new Error("useTasks must be used within a TaskProvider");
   }
   return context;
 };
