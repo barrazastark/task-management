@@ -60,13 +60,18 @@ export const TaskList = (): React.ReactElement => {
                 onChange={() => {
                   toggleComplete(t.id);
                 }}
-              />
-              <Flex alignItems="center" ml="1em" flex={1}>
-                <span>{t.title}</span>
-                <Badge colorScheme={priorityColor} ml="1em">
-                  {t.priority}
-                </Badge>
-              </Flex>
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Flex alignItems="center" ml="1em" flex={1}>
+                  <span>{t.title}</span>
+                  <Badge colorScheme={priorityColor} ml="1em">
+                    {t.priority}
+                  </Badge>
+                </Flex>
+              </Checkbox>
               <IconButton
                 colorScheme="blue"
                 size="sm"
