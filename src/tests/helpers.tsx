@@ -1,11 +1,14 @@
 import React from "react";
-import { TaskProvider } from "../context/TaskManagement";
-import { BrowserRouter as Router } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 
-export const Provider = ({ children }: { children: React.ReactElement }) => {
+export const TestProvider = ({
+  children,
+  initialEntries = ["/"],
+}: {
+  children: React.ReactElement;
+  initialEntries?: string[];
+}) => {
   return (
-    <Router>
-      <TaskProvider>{children}</TaskProvider>
-    </Router>
+    <MemoryRouter initialEntries={initialEntries}>{children}</MemoryRouter>
   );
 };

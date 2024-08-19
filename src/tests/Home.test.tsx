@@ -1,15 +1,15 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import { BrowserRouter as Router } from "react-router-dom";
 import { Home } from "../components/Home";
+import { TestProvider } from "./helpers";
 
 // A helper function to render the Home component with router
 const renderHome = () => {
   render(
-    <Router>
+    <TestProvider>
       <Home />
-    </Router>,
+    </TestProvider>,
   );
 };
 
