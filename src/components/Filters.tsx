@@ -6,6 +6,7 @@ import {
   Box,
   useRadio,
   useRadioGroup,
+  RadioProps,
   HStack,
 } from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
@@ -14,7 +15,7 @@ import { Priority, SortOrder } from "../types/Task";
 
 const options = ["All", "High", "Medium", "Low"];
 
-const RadioCard = (props: any) => {
+const RadioCard = (props: RadioProps) => {
   const { getInputProps, getRadioProps } = useRadio(props);
 
   const input = getInputProps();
